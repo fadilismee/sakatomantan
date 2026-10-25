@@ -1,0 +1,15 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="4" width="248" height="248" rx="64" fill="#11171E" stroke="#34404D" stroke-width="4"/>
+  <path d="M64 92C64 59.967 89.967 34 122 34H134C166.033 34 192 59.967 192 92V161C192 194.137 165.137 221 132 221H124C90.863 221 64 194.137 64 161V92Z" stroke="url(#ring)" stroke-width="20"/>
+  <path d="M102 34H154V45C154 53.837 146.837 61 138 61H118C109.163 61 102 53.837 102 45V34Z" fill="url(#notch)"/>
+  <rect x="126" y="88" width="4" height="84" rx="2" fill="#29343F"/>
+  <defs>
+    <linearGradient id="ring" x1="64" y1="34" x2="199" y2="213" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#B9C6CA"/>
+    </linearGradient>
+    <linearGradient id="notch" x1="102" y1="34" x2="154" y2="61" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#42CBE3"/><stop offset="1" stop-color="#6EE0BD"/>
+    </linearGradient>
+  </defs>
+</svg>
+
