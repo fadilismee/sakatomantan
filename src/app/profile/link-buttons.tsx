@@ -4,18 +4,8 @@ import { useRef } from "react"
 import { ArrowUpRight } from "lucide-react"
 
 // Bunyi klik button link — dipilih acak tiap klik. KHUSUS /profile saja.
-// File lokal di public/sounds/ (myinstants: 6 suara Prabowo + cantik;
-// memesoundeffects: kokopan; kiriman user: sound-tiktok).
-const LINK_SOUNDS = [
-  "/sounds/prabowo-sodara.mp3",
-  "/sounds/kokopan.mp3",
-  "/sounds/prabowo-utang.mp3",
-  "/sounds/prabowo-antek-asing.mp3",
-  "/sounds/prabowo-sorry.mp3",
-  "/sounds/kapan-yah.mp3",
-  "/sounds/ya-allah.mp3",
-  "/sounds/sound-tiktok.mp3",
-]
+// Daftar bunyi di ./sounds (dipakai bersama diamond).
+import { PROFILE_SOUNDS } from "./sounds"
 
 export function LinkButtons({
   links,
@@ -33,7 +23,7 @@ export function LinkButtons({
       audio.currentTime = 0
     }
     const src =
-      LINK_SOUNDS[Math.floor(Math.random() * LINK_SOUNDS.length)]
+      PROFILE_SOUNDS[Math.floor(Math.random() * PROFILE_SOUNDS.length)]
     let audio = audioRef.current[src]
     if (!audio) {
       audio = new Audio(src)

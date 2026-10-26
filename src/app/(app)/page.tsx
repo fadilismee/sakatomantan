@@ -14,6 +14,7 @@ import { GitHubContributions } from "@/features/portfolio/components/github-cont
 import { Hello } from "@/features/portfolio/components/hello"
 import { Numbers } from "@/features/portfolio/components/numbers"
 import { Overview } from "@/features/portfolio/components/overview"
+import { DIAMOND_SOUNDS } from "@/app/profile/sounds"
 import { ProfileHeader } from "@/features/portfolio/components/profile-header"
 import { Projects } from "@/features/portfolio/components/projects"
 import { Recognition } from "@/features/portfolio/components/recognition"
@@ -38,7 +39,7 @@ export default function HomePage() {
 
       <div className="[--separator-height:--spacing(8)] **:data-[slot=panel]:scroll-mt-[calc(var(--header-height)+var(--separator-height))]">
         <div className="mx-auto md:max-w-3xl">
-          <ProfileHeader />
+          <ProfileHeader clickSoundSrcs={DIAMOND_SOUNDS} />
           <Separator />
 
           {/* Panel Overview disembunyikan sesuai permintaan — isinya

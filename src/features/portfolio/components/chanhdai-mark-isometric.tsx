@@ -25,10 +25,18 @@ const transition: Transition = {
  * Designed by ncdai on Figma with [Fast Isometric Plugin](https://www.figma.com/community/plugin/1249759048471403961).
  * Inspired by tailwindcss.com.
  *
- * soundSrc: kalau diisi, klik memutar file audio itu (mis. di page profil);
- * kalau kosong, klik memakai bunyi metal-click bawaan seperti di homepage.
+ * soundSrc: kalau diisi, klik memutar file audio itu (satu bunyi tetap).
+ * soundSrcs: kalau diisi, tiap klik memilih satu file acak dari daftar
+ * (tidak mengulang bunyi sebelumnya); mengalahkan soundSrc.
+ * Kalau keduanya kosong, klik memakai bunyi metal-click bawaan.
  */
-export function ChanhDaiMarkIsometric({ soundSrc }: { soundSrc?: string }) {
+export function ChanhDaiMarkIsometric({
+  soundSrc,
+  soundSrcs,
+}: {
+  soundSrc?: string
+  soundSrcs?: string[]
+}) {
   const id = useId()
   const ids = {
     facePattern: `ncdai-face-pattern-${id}`,
@@ -41,15 +49,31 @@ export function ChanhDaiMarkIsometric({ soundSrc }: { soundSrc?: string }) {
 
   const [play] = useSound(metalClickSound)
 
-  // Pemutar file audio khusus (mis. MP3 meme) — dibuat sekali, dipakai ulang.
-  const fileAudioRef = useRef<HTMLAudioElement | null>(null)
+  // Pemutar file audio — satu per file, dipakai ulang supaya klik beruntun
+  // tidak menumpuk; klik baru menghentikan bunyi sebelumnya dulu.
+  const fileAudioRef = useRef<Record<string, HTMLAudioElement>>({})
+  const lastSoundRef = useRef<string | null>(null)
   const playFileSound = () => {
-    if (!soundSrc) return
-    if (!fileAudioRef.current) {
-      fileAudioRef.current = new Audio(soundSrc)
+    const pool =
+      soundSrcs && soundSrcs.length > 0 ? soundSrcs : soundSrc ? [soundSrc] : []
+    if (pool.length === 0) return
+    let src = pool[Math.floor(Math.random() * pool.length)]
+    // Jangan mengulang bunyi yang baru saja diputar (kalau ada pilihan lain).
+    while (pool.length > 1 && src === lastSoundRef.current) {
+      src = pool[Math.floor(Math.random() * pool.length)]
     }
-    fileAudioRef.current.currentTime = 0
-    void fileAudioRef.current.play().catch(() => {})
+    lastSoundRef.current = src
+    for (const audio of Object.values(fileAudioRef.current)) {
+      audio.pause()
+      audio.currentTime = 0
+    }
+    let audio = fileAudioRef.current[src]
+    if (!audio) {
+      audio = new Audio(src)
+      fileAudioRef.current[src] = audio
+    }
+    audio.currentTime = 0
+    void audio.play().catch(() => {})
   }
 
   const shouldReduceMotion = useReducedMotion()
@@ -102,7 +126,7 @@ export function ChanhDaiMarkIsometric({ soundSrc }: { soundSrc?: string }) {
       initial="normal"
       whileTap="pressed"
       onTap={() => {
-        if (soundSrc) {
+        if (soundSrc || (soundSrcs && soundSrcs.length > 0)) {
           playFileSound()
         } else {
           play()

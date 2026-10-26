@@ -8,14 +8,21 @@ import { VerifiedIcon } from "./verified-icon"
 
 export function ProfileHeader({
   clickSoundSrc,
+  clickSoundSrcs,
 }: {
-  // Diteruskan ke diamond: kalau diisi, klik diamond memutar file itu.
+  // Diteruskan ke diamond: clickSoundSrcs (daftar acak) mengalahkan
+  // clickSoundSrc (satu bunyi tetap); kalau keduanya kosong, diamond
+  // memakai bunyi metal-click bawaan.
   clickSoundSrc?: string
+  clickSoundSrcs?: string[]
 }) {
   return (
     <div className="screen-line-bottom grid grid-cols-[auto_1fr] grid-rows-[1fr_auto] overflow-y-clip border-x border-x-line after:z-1">
       <figure className="relative col-span-2 p-2 sm:col-span-1 sm:col-start-2 sm:p-4">
-        <ChanhDaiMarkIsometric soundSrc={clickSoundSrc} />
+        <ChanhDaiMarkIsometric
+          soundSrc={clickSoundSrc}
+          soundSrcs={clickSoundSrcs}
+        />
 
         {/* w-36 needs ~1088px before the gutter can hold it without clipping,
             and the mark ignores coarse pointers, so nothing to annotate there. */}
